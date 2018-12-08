@@ -1,0 +1,13 @@
+[package]
+authors = ["David Hewitt"]
+description = "Single-producer single-consumer lock-free buffer"
+license = "MIT"
+name = "spsc-buffer"
+version = "0.1.0"
+
+[[bench]]
+harness = false
+name = "bench"
+
+[dev-dependencies]
+criterion = "0.2"
