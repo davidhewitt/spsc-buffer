@@ -3,7 +3,8 @@ authors = ["David Hewitt"]
 description = "Single-producer single-consumer lock-free buffer"
 license = "MIT"
 name = "spsc-buffer"
-version = "0.1.0"
+version = "0.1.1"
+repository = "https://github.com/davidhewitt/spsc-buffer"
 
 [[bench]]
 harness = false
