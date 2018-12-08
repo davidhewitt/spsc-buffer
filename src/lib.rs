@@ -176,3 +176,46 @@ pub fn spsc_buffer(size: usize) -> (SpscBufferWriter, SpscBufferReader) {
 
     (producer, consumer)
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_spsc_buffer() {
+        let buf = [1u8; 100];
+
+        let (mut producer, mut consumer) = spsc_buffer(60);
+
+        assert!(producer.is_empty());
+        assert!(consumer.is_empty());
+
+        assert_eq!(producer.len(), 0);
+        assert_eq!(consumer.len(), 0);
+
+        assert_eq!(producer.capacity(), 60);
+        assert_eq!(consumer.capacity(), 60);
+
+        let mut out_buf = [0u8; 100];
+
+        assert_eq!(producer.write_from_slice(&buf), 60);
+        assert_eq!(producer.len(), 60);
+        assert_eq!(consumer.len(), 60);
+
+        assert_eq!(consumer.read_to_slice(&mut out_buf), 60);
+        assert_eq!(producer.len(), 0);
+        assert_eq!(consumer.len(), 0);
+
+        assert_eq!(producer.write_from_slice(&buf[60..]), 40);
+        assert_eq!(producer.len(), 40);
+        assert_eq!(consumer.len(), 40);
+
+        assert_eq!(consumer.read_to_slice(&mut out_buf[60..]), 40);
+        assert_eq!(producer.len(), 0);
+        assert_eq!(consumer.len(), 0);
+
+        assert_eq!(&buf[..], &out_buf[..]);
+
+
+    }
+}
